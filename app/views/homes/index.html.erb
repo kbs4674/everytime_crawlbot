@@ -1,0 +1,92 @@
+<div class="container">
+    <div style="margin-top: 100px;" align="center">
+        <h1>/app/views/homes/index.html.erb</h1>
+        <h3>이 곳은 홈페이지 메인이 될 곳임.</h3>
+        <%= alert %>
+        <%= notice %>
+        <div style="margin-top: 30px;"></div>
+        <% if Rails.env.development? %>
+            <%= link_to "Rails DB 이동", rails_db_path, class: "btn btn-info" %>
+        <% end %>
+        <% if not user_signed_in? %>
+            <%= link_to "로그인", user_session_path, class: "btn btn-primary" %>
+            <%= link_to "회원가입", new_user_registration_path, class: "btn btn-dark" %>
+        <% else %>
+            <%= link_to "마이페이지", "/users/page/#{current_user.id}", class: "btn btn-success" %>
+            <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
+        <% end %>
+    </div>
+    <hr/>
+    <h5 style="font-weight: bold">로그인 정보</h5>
+    <% if user_signed_in? %>
+        <div style="white-space: pre-wrap;">
+            아이디 : <%= current_user.email %>
+            유저 No. : <%= current_user.id %>
+        </div>
+    <% else %>
+        로그인 되어있지 않음.
+    <% end %>
+    <hr/>
+        <h5 style="font-weight: bold">메뉴</h5>
+        <span><%= link_to "카테고리 설정", bulletins_path %></span>
+        <% Bulletin.all.each do |x| %>
+            <span style="margin-left: 10px;"><%= link_to "#{x.title}", bulletin_posts_path(x.id) %></span>
+        <% end %>
+    <hr/>
+    
+    <div style="white-space: pre-wrap;">
+        <h5 style="font-weight: bold">루비/레일즈 정보</h5>
+        <b>Ruby</b> : 2.4.0
+        <b>Rails</b> : 5.1.6
+    </div>
+    
+    <div style="white-space: pre-wrap;">
+        <h5 style="font-weight: bold">서버 설정</h5>
+        1. <b>AWS 기준</b> 서버 설정법은 다음 과정을 따라주길 바랍니다. [<a href="https://blog.naver.com/kbs4674/221168996150" target="_blank">클릭</a>]
+        2. <b>Heroku</b> 서버 셋팅은 <a href="http://wantknow.tistory.com/61" target="_blank"><b>여기</b></a>를 참고 바랍니다.
+    </div>
+    
+    <div style="white-space: pre-wrap;">
+        <h5 style="font-weight: bold">인수인계 사항</h5>
+        1. Devise 설치 + 비밀번호 분실 대비 이메일 연동
+        　* enviropment/production&development.rb 수정작업 할 것.
+        2. 부트스트랩 4.1 설치
+        3. 폰트어썸 설치 [For 아이콘 표현, <a href="https://fontawesome.com/icons" target="_blank">사이트 참고(클릭)</a>]
+        4. 기본 글꼴 : 나눔고딕 설정
+        5. .gitignore 파일 셋팅 (일부 파일은 github에 자료가 push되는 것을 제한.)
+        6. Rails Local 시간 환경을 '대한민국'으로 설정.
+        7. `/app/assets/stylesheets/application.scss` 파일 일부 수정
+        8. 검색창 (created at Now ~ 1년단위 검색) [<a href="https://blog.naver.com/kbs4674/221379111562" target="_blank">참고</a>]
+        9. 쪽지함 [<a href="https://blog.naver.com/kbs4674/221236300834" target="_blank">참고</a>]
+        10. `rake db:seed` 시 기본 DB 설정
+        11. Nav-bar 디자인 참고 : https://bootstrapmade.com/demo/BizPage/
+        12. PostgreSQL DB : AWS 서버오픈 기반 설치 [<a href="https://blog.naver.com/kbs4674/221077775973" target="_blank">AWS 서버 설치대비 참고</a>]
+        　* config/application.yml 수정작업 할 것.
+        13. 게시판(카테고리 형식) 방식 구현 [<a href="https://blog.naver.com/kbs4674/221380526245" target="_blank">참고</a>]
+        14. Gem : Devise 한국어 번역 처리
+        15. Gem : RailsDB (Development 환경 내에서만 동작) [<a href="https://blog.naver.com/kbs4674/221052908122" target="_blank">참고</a>]
+        16. Gem : J-Query 설치
+        17. Gem : cancancan+rolify [<a href="https://blog.naver.com/kbs4674/221069915874" target="_blank">참고</a>]
+        18. Gem : paranoia (자료 백업 / Bulletin, Post) [<a href="https://blog.naver.com/kbs4674/221052897085" target="_blank">참고</a>]
+        19. Gem : therubyracer (서버 설정 전용 Gem)
+        20. Gem : Figaro (코드보안) [<a href="https://blog.naver.com/kbs4674/221191136195" target="_blank">참고</a>]
+        21. Gem : Rails Admin (어드민 페이지) [<a href="https://blog.naver.com/kbs4674/221187526054" target="_blank">참고</a>]
+        22. Gem : TinyMce (게시글 에디터) [<a href="https://blog.naver.com/kbs4674/221012826088" target="_blank">참고</a>]
+        23. Gem : impressionist 설치 (조회수 / Bulletin, AllNotice, Post) [<a href="https://blog.naver.com/kbs4674/221042620689" target="_blank">참고</a>]
+        24. Gem : Mailgun 기반 설치 (이메일 전송 / Post 모델에서 좋아요 n개 받을 시 전송) [<a href="https://blog.naver.com/kbs4674/221386948816" target="_blank">참고</a>]
+        　* config/application.yml 수정작업 할 것.
+        25. Gem : act-as-commentable-with-threading (댓글구현 / AllNotice, Post) [<a href="https://blog.naver.com/kbs4674/221182443309" target="_blank">참고</a>]
+        26. Gem : 투표 (쪽지게시판에서 쪽지 숨기기 및 Post 좋아요 등 활용) [<a href="https://blog.naver.com/kbs4674/221173415422" target="_blank">참고</a>]
+        　* ajax 방식 구동이라 '좋아요'를 클릭해도 refresh 안됨. [<a href="https://stackoverflow.com/a/34011958" target="_blank">참고</a>]
+        27. Gem : unread (댓글, 쪽지 알림) [<a href="https://blog.naver.com/kbs4674/221174702377" target="_blank">참고</a>]
+        28. Gem : kaminary (게시글 목록) [<a href="https://blog.naver.com/kbs4674/221067158208" target="_blank">참고</a>]
+        <%= content_tag(:span, "이 이후 인수인계 사항은 <b style='color: orange'>README.md</b>에 기록해주세요.".html_safe, style: "color: red") %>
+    </div>
+    
+    <div style="white-space: pre-wrap;">
+        <h5 style="font-weight: bold">알아두면 좋은 사이트</h5>
+        1. 코딩 지식인 - Stackoverflow <%= link_to "클릭", "http://stackoverflow.com", target: "_blank" %>
+        2. Rails Gem 추천 사이트 <%= link_to "클릭", "https://www.ruby-toolbox.com/", target: "_blank" %>
+        3. Rails 사용설명 블로그 <%= link_to "클릭", "http://blog.naver.com/kbs4674", target: "_blank" %>
+    </div>
+</div>

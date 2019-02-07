@@ -1,0 +1,36 @@
+<div class="container">
+    <h1><%= @bulletin.title %></h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>내용</th>
+                <th colspan="3"></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <% @posts.each do |post| %>
+                <%= render 'posts/index/index_normal', post: post %>
+            <% end %>
+        </tbody>
+    </table>
+    
+    <br>
+    
+    <div align="right" style="margin-top: 30px">
+        <div class="d-none d-md-block"><%= render 'searches/search_form_pc', post: @posts.klass %></div>
+        <div class="d-md-none"><%= render 'searches/search_form_mobile', post: @posts.klass %></div>
+    </div>
+    
+    <div style="margin-top: 50px; margin-bottom: 50px;">
+        <%= paginate @posts %>
+    </div>
+    
+    <% if (@bulletin.opt_admin_only == true) && (current_user.has_role? :admin) %>
+        <div align="right"><%= link_to '글 쓰기', (@bulletin.present? ?  new_bulletin_post_path(@bulletin) : new_post_path), class: 'btn btn-sm btn-primary' %></div>
+    <% elsif (@bulletin.opt_admin_only == false) %>
+        <div align="right"><%= link_to '글 쓰기', (@bulletin.present? ?  new_bulletin_post_path(@bulletin) : new_post_path), class: 'btn btn-sm btn-primary' %></div>
+    <% end %>
+</div>

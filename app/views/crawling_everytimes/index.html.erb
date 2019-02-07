@@ -1,0 +1,53 @@
+<%= render 'crawling_everytimes/top_render/top_banner' %>
+
+<%# 경고메세지 출력 (아이디, 비밀번호 잘못 칠 시 등등...) %>
+<%= render 'crawling_everytimes/top_render/alert_normal' %>
+<div class="container">
+  <% if current_user.has_role? :admin %>
+    <div style="margin-top: 20px">
+      <%= link_to "새내기 게시판", "https://everytime.kr/385899", target: "_blank", class: "badge badge-pill badge-danger" %>
+      <%= link_to "춘천캠 자유게시판", "https://everytime.kr/380617", target: "_blank", class: "badge badge-pill badge-danger" %>
+      <%= link_to "고양이 게시판", "https://everytime.kr/380617", target: "_blank",class: "badge badge-pill badge-danger" %>
+      <%= link_to "IT 게시판", "https://everytime.kr/391755", target: "_blank", class: "badge badge-pill badge-danger" %>
+    </div>
+    
+    <div style="margin-top: 20px">
+        <%= link_to "강제 BOT 활동 시작(새내기 게시판)", activate_newbie_path, method: "post", class: "badge badge-pill badge-primary" %>
+        <%= link_to "강제 BOT 활동 시작(춘천캠 자유게시판)", activate_info_path, method: "post", class: "badge badge-pill badge-primary" %>
+    </div>
+    
+    <div class="row" style="margin-top: 30px;">
+      <div class="col-md-4 d-none d-md-block index_board_row" align="center">제목(내용)</div>
+      <div class="col-md-4 d-none d-md-block index_board_row" align="center">내용</div>
+      <div class="col-md-2 d-none d-md-block index_board_row" align="center">카테고리</div>
+      <div class="col-md-2 d-none d-md-block index_board_row" align="center">답변여부</div>
+    </div>
+    
+    <%# PC %>
+    <div class="d-none d-md-block">
+      <% @crawling_everytimes.each do |x| %>
+        <%= render 'crawling_everytimes/index/index_content_pc', x: x %>
+      <% end %>
+    </div>
+    
+    <%# 모바일 %>
+    <div class="d-md-none">
+      <% @crawling_everytimes.each do |x| %>
+        <%= render 'crawling_everytimes/index/index_content_mobile', x: x %>
+      <% end %>
+    </div>
+    
+    <div style="margin-top: 10px; margin-bottom: 10px">
+      <%= paginate @crawling_everytimes %>
+    </div>
+  <% else %>
+    <div align="center">
+      <div style="margin-top: 200px" class="d-none d-md-block"></div>
+      <div style="margin-top: 100px" class="d-md-none"></div>
+      <img src="<%= asset_path 'logo.png' %>">
+      <div style="margin-top: 20px">죄송합니다, 해당 서비스는 이용하실 수 없습니다.</div>
+      <div class="wow fadeInUp" data-wow-delay="10s" style="margin-top: 10px">그런데 홍보도 안했는데 어떻게.. 이 사이트에 오셨지?;..</div>
+      <div style="margin-top: 30px"><%= link_to " kbs4674@naver.com", "mailto: kbs4674@naver.com", class: "far fa-envelope", style: "color: black; text-decoration: none;" %></div>
+    </div>
+  <% end %>
+</div>

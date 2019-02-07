@@ -1,0 +1,5 @@
+<tr>
+    <td><%= link_to post.title, (@bulletin.present? ? [post.bulletin, post] : post) %></td>
+    <td><%= link_to post.content, (@bulletin.present? ? [post.bulletin, post] : post) %></td>
+    <td><%= link_to post.impressionist_count, (@bulletin.present? ? [post.bulletin, post] : post) %></td>
+</tr>
