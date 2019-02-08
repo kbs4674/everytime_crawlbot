@@ -21,14 +21,14 @@ namespace :bot_example do
       x.destroy
     end
 
-    ## [에브리타임 : 새내기 게시판] 글 목록 파싱
+    ## [에브리타임 : 새내기 게시판] 글 목록 크롤링
     everytime_board_list = agent.post("/find/board/article/list", {
-      id: "385899" # 에브리타임 게시글 ID값
+      id: "385899" # 에브리타임 게시판(새내기 게시판) ID값
     })
     everytime_xml_content_id = everytime_board_list.xml.search('//response//article').map{|node| node['id']} # 크롤링 대상 (새내기 게시판 글 번호, XML)
     everytime_xml_content_text = everytime_board_list.xml.search('//response//article').map{|node| node['text']} # 크롤링 대상 (새내기 게시판 제목(= 내용), XML)
     
-    ## 에브리타임에서 파싱된 게시글을 내 서버의 DB에 저장
+    ## 에브리타임에서 크롤링된 게시글을 내 서버의 DB에 저장
     for i in 0..19
       CrawlingEverytime.create(title: everytime_xml_content_text[i], article_id: everytime_xml_content_id[i], category_id: "385899", category_name: "새내기 게시판")
     end
@@ -42,7 +42,7 @@ namespace :bot_example do
           is_anonym: "0" # 0: 닉네임 공개 , 1: 익명
         })
         
-        # 에타 게시글 내 댓글 열람
+        # 에타 게시글 속 댓글 열람
         everytime_board_show = agent.post("https://everytime.kr/find/board/comment/list", {
           id: "#{x.article_id}" # 에브리타임 게시글 ID
         })
