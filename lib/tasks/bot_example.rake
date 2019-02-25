@@ -71,7 +71,7 @@ namespace :bot_example do
     @merge_univ_schedule = @univ_array_title.zip(@univ_array_time) ## 제목과 기간을 zip 함수를 이용해서 하나로(2차원 배열) 합친다.
     
     ## 학사일정
-    CrawlingEverytime.all.where("title like ? AND title like ?", "%학사일정%", "%알려줘%").or(CrawlingEverytime.all.where("content like ? AND content like ?", "%학사일정%", "%알려줘%")).each do |x|
+    CrawlingEverytime.all.where("title like ? AND title like ?", "%학사일정%", "%알려줘%").or(CrawlingEverytime.all.where("content like ? AND content like ?", "%학교일정%", "%알려줘%")).each do |x|
       if (x.comment_id == nil && x.comment_content == nil)
         everytime_board_write = agent.post("/save/board/comment", {
           id: "#{x.article_id}",
